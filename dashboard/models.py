@@ -8,6 +8,9 @@ class Student(models.Model):
     email_address = models.EmailField(max_length=50)
     school_name = models.CharField(max_length=70)
 
+    def get_name(self):
+        return self.first_name
+
 class Assessment(models.Model):
     course_name = models.CharField(max_length=20, help_text="enter course name for the assessment (e.g CPSC 317)")
     # # each assessment MUST be related to one course
@@ -28,7 +31,7 @@ class Assessment(models.Model):
         help_text="Percentage weight for quizzes",
     )
 
-    midterm = models.IntegerField(
+    midterms = models.IntegerField(
         default=0,
         validators=[MaxValueValidator(100), MinValueValidator(0)],
         help_text="Percentage weight for midterms",
@@ -42,6 +45,9 @@ class Assessment(models.Model):
 
     def __str__(self):
         return 'Assessment for ' + self.course_name
+
+    def get_assessment(self):
+        return {'homeworks':self.homeworks, 'quizzes':self.quizzes, 'midterms':self.midterms, 'final':self.final}
     
 
 
@@ -68,6 +74,9 @@ class Course(models.Model):
         """
         String for representing the Model object (in Admin site etc.)
         """
+        return self.name
+
+    def get_name(self):
         return self.name
 
 
