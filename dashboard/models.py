@@ -2,6 +2,12 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 import datetime
 
+class Student(models.Model):
+    first_name = models.CharField(max_length=20)
+    last_name = models.CharField(max_length=20)
+    email_address = models.EmailField(max_length=50)
+    school_name = models.CharField(max_length=70)
+
 class Assessment(models.Model):
     course_name = models.CharField(max_length=20, help_text="enter course name for the assessment (e.g CPSC 317)")
     # # each assessment MUST be related to one course

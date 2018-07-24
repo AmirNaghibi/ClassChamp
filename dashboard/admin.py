@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Assessment, Course, Grades
+from .models import Student ,Assessment, Course, Grades
 
 # Register your models here.
 #admin.site.register(Assessment)
@@ -18,3 +18,8 @@ class GradesAdmin(admin.ModelAdmin):
 @admin.register(Assessment)
 class AssessmentAdmin(admin.ModelAdmin):
     list_display = ('course_name', 'homeworks', 'quizzes','midterm','final')
+
+@admin.register(Student)
+class StudentAdmin(admin.ModelAdmin):
+    list_display = ('first_name','last_name','email_address','school_name')
+    fields = [('first_name','last_name'),'email_address','school_name']
