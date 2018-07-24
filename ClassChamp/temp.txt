@@ -1,0 +1,1 @@
+This file should be deleted after all files are movevd from classchamp to ClassChamp
