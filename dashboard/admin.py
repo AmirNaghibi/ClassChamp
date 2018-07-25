@@ -10,8 +10,9 @@ admin.site.register(Course)
 # Register the Admin classe for Grades using the decorator
 @admin.register(Grades)
 class GradesAdmin(admin.ModelAdmin):
-    list_display = ('course', 'assessment_type', 'assessment_name','grade')
+    list_display = ('course', 'assessment_type', 'assessment_name', 'date_added', 'grade')
     fields = ['course','assessment_type',('assessment_name','grade'),'date_added']
+    ordering = ('assessment_type','date_added',)
 
 
 # Register the Admin classe for Assessment using the decorator
