@@ -20,8 +20,8 @@ def index(request):
     
 
     hw_weight = 1 if (Grades.objects.all().filter(assessment_type='h').count()>0) else 0
-    qz_weight = 1 if (Grades.objects.all().filter(assessment_type='q').count()>0) else 0
-    mt_weight = 1 if (Grades.objects.all().filter(assessment_type='m').count()>0) else 0
+    qzweight = 1 if (Grades.objects.all().filter(assessment_type='q').count()>0) else 0
+    mtweight = 1 if (Grades.objects.all().filter(assessment_type='m').count()>0) else 0
     fn_weight = 1 if (Grades.objects.all().filter(assessment_type='f').count()>0) else 0
     
     
@@ -29,5 +29,5 @@ def index(request):
     return render(
         request,
         'index.html',
-        context={'student_name':student_name,'course_name':course_name,'homework_avg':hw_avg},
+        context={'student_name':student_name,'course_name':course_name,'homework_avg':mtweight},
     )
