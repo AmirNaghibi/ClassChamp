@@ -30,5 +30,5 @@ def index(request):
     return render(
         request,
         'index.html',
-        context={'student_name':student_name,'course_name':course_name,'homework_avg':round(course_grade_now,2)},
+        context={'student_name':student_name,'course_name':course_name,'overall_avg':round(course_grade_now,2)},
     )
