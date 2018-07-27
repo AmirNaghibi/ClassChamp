@@ -18,7 +18,9 @@ class GradesAdmin(admin.ModelAdmin):
 # Register the Admin classe for Assessment using the decorator
 @admin.register(Assessment)
 class AssessmentAdmin(admin.ModelAdmin):
-    list_display = ('course_name', 'homeworks', 'quizzes','midterms','final')
+    # list_display = ('course_name', 'homeworks', 'quizzes','midterms','final')
+    list_display = ('homeworks', 'quizzes','midterms','final')
+
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
