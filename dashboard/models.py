@@ -2,6 +2,9 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 import datetime
 
+
+# Grade --> Course --> Assessment : a grade has a course and each course han an assessment
+# student AND **Assessment** are stand alone objects (no dependency, they don't depend on any other object)
 class Student(models.Model):
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
@@ -12,12 +15,6 @@ class Student(models.Model):
         return self.first_name
 
 class Assessment(models.Model):
-    course_name = models.CharField(max_length=20, help_text="enter course name for the assessment (e.g CPSC 317)")
-    # # each assessment MUST be related to one course
-    # course = models.OneToOneField(
-    #     Course,
-    #     on_delete=models.CASCADE,
-    # )
     
     homeworks = models.IntegerField(
         default=0,
@@ -42,9 +39,6 @@ class Assessment(models.Model):
         validators=[MaxValueValidator(100), MinValueValidator(0)],
         help_text="Percentage weight for final exam",
     )
-
-    def __str__(self):
-        return 'Assessment for ' + self.course_name
 
     def get_assessment(self):
         return {'homeworks':self.homeworks, 'quizzes':self.quizzes, 'midterms':self.midterms, 'final':self.final}
