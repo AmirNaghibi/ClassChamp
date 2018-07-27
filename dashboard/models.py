@@ -40,9 +40,6 @@ class Assessment(models.Model):
         help_text="Percentage weight for final exam",
     )
 
-    def __str__(self):
-        return 'Assessment for ' + self.course_name
-
     def get_assessment(self):
         return {'homeworks':self.homeworks, 'quizzes':self.quizzes, 'midterms':self.midterms, 'final':self.final}
     
