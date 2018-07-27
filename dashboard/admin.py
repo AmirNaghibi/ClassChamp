@@ -1,11 +1,10 @@
 from django.contrib import admin
 from .models import Student ,Assessment, Course, Grades
 
-# Register your models here.
-#admin.site.register(Assessment)
-admin.site.register(Course)
-#admin.site.register(Grades)
 
+@admin.register(Course)
+class CourseAdmin(admin.ModelAdmin):
+    list_display = ('name','assessment')
 
 # Register the Admin classe for Grades using the decorator
 @admin.register(Grades)
@@ -18,7 +17,6 @@ class GradesAdmin(admin.ModelAdmin):
 # Register the Admin classe for Assessment using the decorator
 @admin.register(Assessment)
 class AssessmentAdmin(admin.ModelAdmin):
-    # list_display = ('course_name', 'homeworks', 'quizzes','midterms','final')
     list_display = ('homeworks', 'quizzes','midterms','final')
 
 
