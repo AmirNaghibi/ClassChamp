@@ -24,11 +24,15 @@ def index(request):
     course_grade_now = ((hw_avrg*hw_weight)+(qz_avrg*qz_weight)+(mt_avrg*mt_weight)+(fn_avrg*fn_weight))/(hw_weight+qz_weight+mt_weight+fn_weight)
 
  
-    
+    context = {
+        'student_name':student_name,
+        'course_name':course_name,
+        'overall_avg':round(course_grade_now,2),
+    }
     
     # Render the HTML template index.html with the data in the context variable
     return render(
         request,
         'index.html',
-        context={'student_name':student_name,'course_name':course_name,'overall_avg':round(course_grade_now,2)},
+        context = context,
     )
