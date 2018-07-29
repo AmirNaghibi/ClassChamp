@@ -1,26 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  
-  {% block title %}<title>ClassChamp</title>{% endblock %}
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+{% extends "base_generic.html" %}
 
-</head>
+{% block content %}
+  <h1>ClassChamp Home</h1>
+  <p>Welcome to ClassChamp, an interactive portal for your courses</p>
 
-<body>
-  {% block content %}
-    <h1>Hi, {{ student_name }}</h1>
-    <h3>This is an overview for {{ course_name }}</h3>
-
-    <p>Here is the average for different assessments</p>
-    <ul>
-    <li><strong>overall average:</strong> {{ overall_avg }}</li>
-    </ul>
-
+  <h2>Dynamic content</h2>
+  <p>The library has the following record counts:</p>
+  <ul>
+    <li><strong>Student Name:</strong> {{ student_name }}</li>
+    <li><strong>Course Name</strong> {{ course_name }}</li>
+    <li><strong>Course Average</strong> {{ overall_avg }}</li>
+  </ul>
 {% endblock %}
-</body>
-</html>
