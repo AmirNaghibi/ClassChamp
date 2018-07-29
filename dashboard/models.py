@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse #Used to generate URLs by reversing the URL patterns
 from django.core.validators import MaxValueValidator, MinValueValidator
 import datetime
 
@@ -69,6 +70,12 @@ class Course(models.Model):
         String for representing the Model object (in Admin site etc.)
         """
         return self.name
+    
+    def get_absolute_url(self):
+        """
+        Returns the url to access a detail record for this book.
+        """
+        return reverse('course-detail', args=[str(self.id)])
 
     def get_name(self):
         return self.name
