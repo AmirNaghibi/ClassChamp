@@ -2,18 +2,28 @@ from django.shortcuts import render
 from .models import Student, Assessment, Course, Grades
 from django.db.models import Avg
 
+# calculate assessment avg
+# assessment_types: homework=h , quiz=q , midterm=m , final=f
+def assess_avg(assess_type, course_name):
+    avg = 0 if (Grades.objects.all().filter(course__name=course_name,assessment_type=assess_type).count()==0) else Grades.objects.all().filter(course__name=course_name,assessment_type=assess_type).aggregate(Avg('grade'))['grade__avg']
+    return avg
+# calculate course weight
+def assess_weight(assess_type, course_name):
+    weight = 0 if (Grades.objects.all().filter(course__name=course_name,assessment_type=assess_type).count()==0) else Course.objects.all().get(name=course_name).assessment.homeworks
+    return weight
+
 # calculate avg given course name
 def calculate_overall_avg(course_name):
     # average grade calculations: homework, quiz, midterm
-    hw_avrg = 0 if (Grades.objects.all().filter(course__name=course_name,assessment_type='h').count()==0) else Grades.objects.all().filter(course__name=course_name,assessment_type='h').aggregate(Avg('grade'))['grade__avg']
-    qz_avrg = 0 if (Grades.objects.all().filter(course__name=course_name,assessment_type='q').count()==0) else Grades.objects.all().filter(course__name=course_name,assessment_type='q').aggregate(Avg('grade'))['grade__avg']
-    mt_avrg = 0 if (Grades.objects.all().filter(course__name=course_name,assessment_type='m').count()==0) else Grades.objects.all().filter(course__name=course_name,assessment_type='m').aggregate(Avg('grade'))['grade__avg']
-    fn_avrg = 0 if (Grades.objects.all().filter(course__name=course_name,assessment_type='f').count()==0) else Grades.objects.all().filter(course__name=course_name,assessment_type='f').aggregate(Avg('grade'))['grade__avg']
+    hw_avrg = assess_avg('h',course_name)
+    qz_avrg = assess_avg('q',course_name)
+    mt_avrg = assess_avg('m',course_name)
+    fn_avrg = assess_avg('f',course_name)
     # weight of assessments
-    hw_weight = 0 if (Grades.objects.all().filter(course__name=course_name,assessment_type='h').count()==0) else Course.objects.all().get(name=course_name).assessment.homeworks
-    qz_weight = 0 if (Grades.objects.all().filter(course__name=course_name,assessment_type='q').count()==0) else Course.objects.all().get(name=course_name).assessment.quizzes
-    mt_weight = 0 if (Grades.objects.all().filter(course__name=course_name,assessment_type='m').count()==0) else Course.objects.all().get(name=course_name).assessment.midterms
-    fn_weight = 0 if (Grades.objects.all().filter(course__name=course_name,assessment_type='f').count()==0) else Course.objects.all().get(name=course_name).assessment.final
+    hw_weight = assess_weight('h',course_name)
+    qz_weight = assess_weight('q',course_name)
+    mt_weight = assess_weight('m',course_name)
+    fn_weight = assess_weight('f',course_name)
     # weighted average of the course based on grades achieved up to now
     overall_avg = ((hw_avrg*hw_weight)+(qz_avrg*qz_weight)+(mt_avrg*mt_weight)+(fn_avrg*fn_weight))/(hw_weight+qz_weight+mt_weight+fn_weight)
     return overall_avg
