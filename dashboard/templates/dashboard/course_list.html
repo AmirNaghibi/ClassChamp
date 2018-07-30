@@ -6,7 +6,7 @@
   <ul>
     {% for course in course_list %}
       <li>
-        <a href="#">{{ course.name }}</a>
+        <a href="#">{{ course.name }} :   </a> {% calculate_overall_avrg(course.name) %}
       </li>
     {% endfor %}
   </ul>

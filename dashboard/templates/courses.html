@@ -1,0 +1,13 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Course List</h1>
+  <h1>Overall Teram Average: <i>{{ term_avrg }}</i></h1>
+  <ul>
+    {% for key, value in course_avrg.items %}
+      <li>
+        <a href="#">{{ key }}: </a> {{ value }}
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
