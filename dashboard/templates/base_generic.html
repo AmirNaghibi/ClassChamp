@@ -13,6 +13,14 @@
 <body>
   <div class="container-fluid">
     <div class="row">
+    <div class="col-sm-2">
+      {% block sidebar %}
+      <ul class="sidebar-nav">
+          <li><a href="{% url 'index' %}">Dashboard</a></li>
+          <li><a href="{% url 'courses' %}">Courses</a></li>
+      </ul>
+     {% endblock %}
+      </div>
       <div class="col-sm-10 ">
       {% block content %}{% endblock %}
       </div>
