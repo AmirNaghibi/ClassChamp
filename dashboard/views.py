@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import Student, Assessment, Course, Grades
 from django.db.models import Avg
+from django.views import generic
 
 # calculate assessment avg
 # assessment_types: homework=h , quiz=q , midterm=m , final=f
@@ -50,3 +51,7 @@ def index(request):
         'index.html',
         context = context,
     )
+
+class CourseListView(generic.ListView):
+    model = Course
+    
