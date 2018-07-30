@@ -21,7 +21,7 @@ def evaluation_weight(evaluation_type, course_name):
 
       
 # calculate avrg given course name
-def calculate_overall_avrg(course_name):
+def course_overall_avrg(course_name):
     # average grade calculations: homework, quiz, midterm
     hw_avrg = evaluation_avrg('h',course_name)
     qz_avrg = evaluation_avrg('q',course_name)
@@ -34,7 +34,17 @@ def calculate_overall_avrg(course_name):
     fn_weight = evaluation_weight('f',course_name)
     # weighted average of the course based on grades achieved up to now
     overall_avrg = ((hw_avrg*hw_weight)+(qz_avrg*qz_weight)+(mt_avrg*mt_weight)+(fn_avrg*fn_weight))/(hw_weight+qz_weight+mt_weight+fn_weight)
-    return overall_avrg
+    return round(overall_avrg,2)
+
+# calculate avrg for all courses
+def term_overall_avrg():
+    course_averages = []
+    for course in Course.objects.all():
+        course_averages.append(course_overall_avrg(course.name))
+    total = 0
+    for grade in course_averages:
+        total += grade
+    return round(total/len(course_averages),2)
 
 def index(request):
     """
@@ -43,13 +53,13 @@ def index(request):
     student_name = Student.objects.get(last_name='naghibi').first_name
     course_name = Course.objects.get(name='MATH200').name
     # weighted average of the course based on grades achieved up to now
-    course_grade_now = calculate_overall_avrg(course_name)
+    course_grade_now = course_overall_avrg(course_name)
 
  
     context = {
         'student_name':student_name,
         'course_name':course_name,
-        'overall_avrg':round(course_grade_now,3),
+        'overall_avrg':course_grade_now,
     }
     
     # Render the HTML template index.html with the data in the context variable
@@ -59,12 +69,21 @@ def index(request):
         context = context,
     )
 
-class CourseListView(generic.ListView):
-    model = Course
-    # def get_avrg_overall(course_name):
-    #     return calculate_overall_avrg(course_name)
-    def get_context_data(self, **kwargs):
-        context = super(CourseListView, self).get_context_data(**kwargs)
-        context['calculate_overall_avrg(course_name)'] = calculate_overall_avrg(Course.name)
-        return context
-    
+def coursePage(request):
+    course_list = Course.objects.all()
+    course_avrg = {}
+    for course in course_list:
+        course_avrg[course.name]=course_overall_avrg(course.name)
+    context = {
+        'term_avrg':term_overall_avrg(),
+        'course_avrg':course_avrg,
+    }
+
+    return render(
+        request,
+        'courses.html',
+        context = context,
+    )
+
+
+
