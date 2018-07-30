@@ -41,7 +41,7 @@ def index(request):
     View function for home page of site.
     """
     student_name = Student.objects.get(last_name='naghibi').first_name
-    course_name = Course.objects.get(name='CPSC317').name
+    course_name = Course.objects.get(name='MATH200').name
     # weighted average of the course based on grades achieved up to now
     course_grade_now = calculate_overall_avrg(course_name)
 
@@ -61,4 +61,10 @@ def index(request):
 
 class CourseListView(generic.ListView):
     model = Course
+    # def get_avrg_overall(course_name):
+    #     return calculate_overall_avrg(course_name)
+    def get_context_data(self, **kwargs):
+        context = super(CourseListView, self).get_context_data(**kwargs)
+        context['calculate_overall_avrg(course_name)'] = calculate_overall_avrg(Course.name)
+        return context
     
