@@ -4,46 +4,37 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 import datetime
 
 
-# Grade --> Course --> Assessment : a grade has a course and each course han an assessment
-# student AND **Assessment** are stand alone objects (no dependency, they don't depend on any other object)
+# Grade --> Course --> Evaluation : a grade has a course and each course han an evaluation
+# Student AND **Evaluation** are stand alone objects (no dependency, they don't depend on any other object)
 class Student(models.Model):
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
     email_address = models.EmailField(max_length=50)
     school_name = models.CharField(max_length=70)
-
     def get_name(self):
         return self.first_name
 
-class Assessment(models.Model):
-    
+class Evaluation(models.Model): 
     homeworks = models.IntegerField(
         default=0,
         validators=[MaxValueValidator(100), MinValueValidator(0)],
         help_text="Percentage weight for homeworks",
     )
-
     quizzes = models.IntegerField(
         default=0,
         validators=[MaxValueValidator(100), MinValueValidator(0)],
         help_text="Percentage weight for quizzes",
     )
-
     midterms = models.IntegerField(
         default=0,
         validators=[MaxValueValidator(100), MinValueValidator(0)],
         help_text="Percentage weight for midterms",
     )
-
     final = models.IntegerField(
         default=0,
         validators=[MaxValueValidator(100), MinValueValidator(0)],
         help_text="Percentage weight for final exam",
     )
-
-    def get_assessment(self):
-        return {'homeworks':self.homeworks, 'quizzes':self.quizzes, 'midterms':self.midterms, 'final':self.final}
-    
 
 
 class Course(models.Model):
@@ -52,19 +43,13 @@ class Course(models.Model):
     """
     name = models.CharField(max_length=20, help_text="Enter a course name (e.g. CPSC 317, MATH 200)")
     avg = models.IntegerField(default=0)
-    # each course MUST have one assessment
-    assessment = models.OneToOneField(
-        Assessment,
+    # each course MUST have one Evaluation
+    evaluation = models.OneToOneField(
+        Evaluation,
         on_delete=models.CASCADE,
-        help_text="enter an assessment for this course"
+        help_text="enter an evaluation for this course (e.x Homeworks)",
+        null=True,
         )
-
-    # def get_absolute_url(self):
-    #     """
-    #     Returns the url to access a particular course instance.
-    #     """
-    #     return reverse('course-detail', args=[str(self.id)])
- 
     def __str__(self):
         """
         String for representing the Model object (in Admin site etc.)
@@ -77,11 +62,8 @@ class Course(models.Model):
         """
         return reverse('course-detail', args=[str(self.id)])
 
-    def get_name(self):
-        return self.name
 
-
-# each grade row MUST have one assessment
+# each grade row MUST have one evaluation
 class Grades(models.Model):
     """
     Model representing a grades. 
@@ -93,26 +75,20 @@ class Grades(models.Model):
         Course,
         on_delete=models.CASCADE,
         help_text="choose the course for the grade"
-    )
-
-    
-    ASSESSMENT_TYPE = (
+    )   
+    EVALUATION_TYPE = (
         ('h','Homework'),
         ('q','Quiz'),
         ('m','Midterm'),
         ('f','Final'),
     ) 
-
-    assessment_type = models.CharField(max_length=1, choices=ASSESSMENT_TYPE, default='h' , help_text='Choose type of assessment (e.g Homework)')
-    assessment_name = models.CharField(max_length=20, default='Homework 1', help_text='enter a name for this assessment')
-
+    evaluation_type = models.CharField(max_length=1, choices=EVALUATION_TYPE, default='h' , help_text='Choose type of evaluation (e.g Homework)')
+    evaluation_name = models.CharField(max_length=20, default='Homework 1', help_text='enter a name for this evaluation')
     grade = models.IntegerField(
         validators=[MaxValueValidator(100), MinValueValidator(0)],
-        help_text = "Enter grade for assessment"
+        help_text = "Enter grade (ex. 83)"
     )
-
     date_added = models.DateField(("Date"), default=datetime.date.today)
-
     def __str__(self):
         return self.course.name
 

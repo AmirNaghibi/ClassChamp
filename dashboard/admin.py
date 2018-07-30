@@ -1,22 +1,23 @@
 from django.contrib import admin
-from .models import Student ,Assessment, Course, Grades
+from .models import Student ,Evaluation, Course, Grades
 
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ('name','assessment')
+    list_display = ('name','evaluation')
+
 
 # Register the Admin classe for Grades using the decorator
 @admin.register(Grades)
 class GradesAdmin(admin.ModelAdmin):
-    list_display = ('course', 'assessment_type', 'assessment_name', 'date_added', 'grade')
-    fields = ['course','assessment_type',('assessment_name','grade'),'date_added']
-    ordering = ('assessment_type','date_added',)
+    list_display = ('course', 'evaluation_type', 'evaluation_name', 'date_added', 'grade')
+    fields = ['course','evaluation_type',('evaluation_name','grade'),'date_added']
+    ordering = ('evaluation_type','date_added',)
 
 
-# Register the Admin classe for Assessment using the decorator
-@admin.register(Assessment)
-class AssessmentAdmin(admin.ModelAdmin):
+# Register the Admin classe for Evaluation using the decorator
+@admin.register(Evaluation)
+class EvaluationAdmin(admin.ModelAdmin):
     list_display = ('homeworks', 'quizzes','midterms','final')
 
 
