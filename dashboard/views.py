@@ -107,9 +107,6 @@ def course_detail_view(request, pk):
 
     except Course.DoesNotExist:
         raise Http404('Course does not exist')
-
-    # from django.shortcuts import get_object_or_404
-    # book = get_object_or_404(Book, pk=primary_key)
     
     return render(
         request, 
