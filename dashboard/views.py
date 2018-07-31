@@ -72,17 +72,12 @@ def index(request):
 def coursesPage(request):
     course_list = Course.objects.all()
     course_avrg = {}
-    course_ids = {}
     for course in course_list:
         course_avrg[course]=course_overall_avrg(course.name)
-
-    for course in course_list:
-        course_ids[course.name]=course.id
 
     context = {
         'term_avrg':term_overall_avrg(),
         'course_avrg':course_avrg,
-        'course_ids':course_ids
     }
 
     return render(
