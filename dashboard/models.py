@@ -57,10 +57,7 @@ class Course(models.Model):
         return self.name
     
     def get_absolute_url(self):
-        """
-        Returns the url to access a detail record for this book.
-        """
-        return reverse('course-detail', args=[str(self.id)])
+        return "%i" % self.id
 
 
 # each grade row MUST have one evaluation
