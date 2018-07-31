@@ -100,7 +100,7 @@ def course_detail_view(request, pk):
         }
 
         context = {
-            'course_name':course_name,
+            'course':course,
             'course_avrg':course_avrg,
             'course_evaluation_grades':course_evaluation_grades,
         }
@@ -113,4 +113,34 @@ def course_detail_view(request, pk):
         'course_detail.html', 
         context=context,
     )
+
+def grades_detail_view(request,pk):
+    try:
+        course = Course.objects.get(id=pk)
+        course_name = course.name
+        course_avrg = course_overall_avrg(course.name)
+
+        course_homework_grades = Grades.objects.filter(course__name=course_name,evaluation_type="h")
+        course_quizz_grades = Grades.objects.filter(course__name=course_name,evaluation_type="q")
+        course_midterm_grades = Grades.objects.filter(course__name=course_name,evaluation_type="m")
+        course_final_grades = Grades.objects.filter(course__name=course_name,evaluation_type="f")
+
+        context = {
+            'course_name':course_name,
+            'course_avrg':course_avrg,
+            'course_homework_grades':course_homework_grades,
+            'course_quizz_grades':course_quizz_grades,
+            'course_midterm_grades':course_midterm_grades,
+            'course_final_grades':course_final_grades,
+        }
+
+    except Course.DoesNotExist:
+        raise Http404('Grades do not exist')
+    
+    return render(
+        request, 
+        'grades_detail.html', 
+        context=context,
+    )
+
 
