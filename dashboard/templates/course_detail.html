@@ -1,0 +1,14 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Evaluation List for {{ course_name }}</h1>
+  <h1>Overall Course Average: <i>{{ course_avrg }}</i></h1>
+  <ul>
+    {% for key, value in course_evaluation_grades.items %}
+      <li>
+        {{ key }}: {{ value }}
+      </li>
+    {% endfor %}
+  </ul>
+  <button type="button">View All Grades</button>
+{% endblock %}
