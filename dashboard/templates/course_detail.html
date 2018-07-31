@@ -1,7 +1,7 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-  <h1>Evaluation List for {{ course_name }}</h1>
+  <h1>Evaluation List for {{ course.name }}</h1>
   <h1>Overall Course Average: <i>{{ course_avrg }}</i></h1>
   <ul>
     {% for key, value in course_evaluation_grades.items %}
@@ -10,5 +10,5 @@
       </li>
     {% endfor %}
   </ul>
-  <button type="button">View All Grades</button>
+  <a href="{{ course.get_absolute_url }}/grades">grades</a>
 {% endblock %}
