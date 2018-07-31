@@ -74,7 +74,7 @@ def coursesPage(request):
     course_avrg = {}
     course_ids = {}
     for course in course_list:
-        course_avrg[course.name]=course_overall_avrg(course.name)
+        course_avrg[course]=course_overall_avrg(course.name)
 
     for course in course_list:
         course_ids[course.name]=course.id
