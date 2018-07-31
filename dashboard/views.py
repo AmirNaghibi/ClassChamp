@@ -69,14 +69,20 @@ def index(request):
         context = context,
     )
 
-def coursePage(request):
+def coursesPage(request):
     course_list = Course.objects.all()
     course_avrg = {}
+    course_ids = {}
     for course in course_list:
         course_avrg[course.name]=course_overall_avrg(course.name)
+
+    for course in course_list:
+        course_ids[course.name]=course.id
+
     context = {
         'term_avrg':term_overall_avrg(),
         'course_avrg':course_avrg,
+        'course_ids':course_ids
     }
 
     return render(
@@ -85,5 +91,33 @@ def coursePage(request):
         context = context,
     )
 
+def course_detail_view(request, pk):
+    try:
+        course = Course.objects.get(id=pk)
+        course_evaluation_grades = {
+            'homeworks': evaluation_avrg('h',course.name),
+            'quizzes': evaluation_avrg('q',course.name),
+            'midterms': evaluation_avrg('m',course.name),
+            'final': evaluation_avrg('f',course.name),
+        }
+        course_avrg = course_overall_avrg(course.name)
+        course_name = course.name
 
+        context = {
+            'course_name':course_name,
+            'course_avrg':course_avrg,
+            'course_evaluation_grades':course_evaluation_grades,
+        }
+
+    except Course.DoesNotExist:
+        raise Http404('Course does not exist')
+
+    # from django.shortcuts import get_object_or_404
+    # book = get_object_or_404(Book, pk=primary_key)
+    
+    return render(
+        request, 
+        'course_detail.html', 
+        context=context,
+    )
 
