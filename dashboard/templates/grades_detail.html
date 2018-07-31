@@ -1,0 +1,57 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Evaluation List for {{ course_name }}</h1>
+  
+  <h1>Homeworks</h1>
+  <ul>
+    {% if course_homework_grades %}
+        {% for hw in course_homework_grades %}
+            <li>
+                {{ hw.evaluation_name }}  {{ hw.date_added }}  {{ hw.grade }}
+            </li>
+        {% endfor %}
+    {% else %}
+            <p>There are no homework marks yet.</p>
+    {% endif %}
+  </ul>
+
+  <h1>Quizzes</h1>
+  <ul>
+    {% if course_quizz_grades %}
+        {% for qz in course_quizz_grades %}
+            <li>
+                {{ qz.evaluation_name }}  {{ qz.date_added }}  {{ qz.grade }}
+            </li>
+        {% endfor %}
+    {% else %}
+            <p>There are no quizz marks yet.</p>
+    {% endif %}
+  </ul>
+
+  <h1>Midterms</h1>
+  <ul>
+    {% if course_midterm_grades %}
+        {% for mt in course_midterm_grades %}
+            <li>
+                {{ mt.evaluation_name }}  {{ mt.date_added }}  {{ mt.grade }}
+            </li>
+        {% endfor %}
+    {% else %}
+        <p>There are no midterm marks yet.</p>
+    {% endif %}
+  </ul>
+
+  <h1>Final</h1>
+  <ul>
+    {% if course_final_grades %}
+        {% for fn in course_final_grades %}
+            <li>
+                {{ fn.evaluation_name }}  {{ fn.date_added }}  {{ fn.grade }}
+            </li>
+        {% endfor %}
+    {% else %}
+        <p>There are no final mark yet.</p>
+    {% endif %}
+  </ul>
+{% endblock %}
