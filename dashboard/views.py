@@ -89,14 +89,15 @@ def coursesPage(request):
 def course_detail_view(request, pk):
     try:
         course = Course.objects.get(id=pk)
+        course_name = course.name
+        course_avrg = course_overall_avrg(course.name)
+
         course_evaluation_grades = {
             'homeworks': evaluation_avrg('h',course.name),
             'quizzes': evaluation_avrg('q',course.name),
             'midterms': evaluation_avrg('m',course.name),
             'final': evaluation_avrg('f',course.name),
         }
-        course_avrg = course_overall_avrg(course.name)
-        course_name = course.name
 
         context = {
             'course_name':course_name,
