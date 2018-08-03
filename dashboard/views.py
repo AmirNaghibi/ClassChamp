@@ -2,7 +2,8 @@ from django.shortcuts import render
 from .models import *
 from django.db.models import Avg
 from django.views import generic
-
+# class to create form based on models
+from . import forms
 
 # calculate evaluation avrg
 # evaluation_types: homework=h , quiz=q , midterm=m , final=f
@@ -138,4 +139,24 @@ def grades_detail_view(request,pk):
         context=context,
     )
 
+
+# Add course tab
+def add_course(request):
+    if request.method == 'POST':
+        form = forms.AddCourse(request.POST)
+        if form.is_valid():
+            # save course to db
+            form.save()
+    else:
+        form = forms.AddCourse()
+
+    context = {
+        'form':form,
+    }
+
+    return render(
+        request,
+        'create_course.html',
+        context=context,
+    )
 
