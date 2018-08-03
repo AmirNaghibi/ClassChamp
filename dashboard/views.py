@@ -1,23 +1,26 @@
 from django.shortcuts import render
-from .models import Student, Evaluation, Course, Grades
+from .models import *
 from django.db.models import Avg
 from django.views import generic
+
 
 # calculate evaluation avrg
 # evaluation_types: homework=h , quiz=q , midterm=m , final=f
 def evaluation_avrg(evaluation_type, course_name):
     avrg = 0 if (Grades.objects.all().filter(course__name=course_name,evaluation_type=evaluation_type).count()==0) else Grades.objects.all().filter(course__name=course_name,evaluation_type=evaluation_type).aggregate(Avg('grade'))['grade__avg']
     return avrg
+
+
 # calculate course weight
 def evaluation_weight(evaluation_type, course_name):
     if evaluation_type=='h':
-        return 0 if (Grades.objects.all().filter(course__name=course_name,evaluation_type=evaluation_type).count()==0) else Course.objects.get(name=course_name).evaluation.homeworks
+        return 0 if (Grades.objects.all().filter(course__name=course_name,evaluation_type=evaluation_type).count()==0) else Course.objects.get(name=course_name).homeworks
     elif evaluation_type=='q':
-        return 0 if (Grades.objects.all().filter(course__name=course_name,evaluation_type=evaluation_type).count()==0) else Course.objects.get(name=course_name).evaluation.quizzes
+        return 0 if (Grades.objects.all().filter(course__name=course_name,evaluation_type=evaluation_type).count()==0) else Course.objects.get(name=course_name).quizzes
     elif evaluation_type=='m':
-        return 0 if (Grades.objects.all().filter(course__name=course_name,evaluation_type=evaluation_type).count()==0) else Course.objects.get(name=course_name).evaluation.midterms
+        return 0 if (Grades.objects.all().filter(course__name=course_name,evaluation_type=evaluation_type).count()==0) else Course.objects.get(name=course_name).midterms
     else:
-        return 0 if (Grades.objects.all().filter(course__name=course_name,evaluation_type=evaluation_type).count()==0) else Course.objects.get(name=course_name).evaluation.final
+        return 0 if (Grades.objects.all().filter(course__name=course_name,evaluation_type=evaluation_type).count()==0) else Course.objects.get(name=course_name).final
 
       
 # calculate avrg given course name
@@ -36,6 +39,7 @@ def course_overall_avrg(course_name):
     overall_avrg = ((hw_avrg*hw_weight)+(qz_avrg*qz_weight)+(mt_avrg*mt_weight)+(fn_avrg*fn_weight))/(hw_weight+qz_weight+mt_weight+fn_weight)
     return round(overall_avrg,2)
 
+
 # calculate avrg for all courses
 def term_overall_avrg():
     course_averages = []
@@ -46,22 +50,20 @@ def term_overall_avrg():
         total += grade
     return round(total/len(course_averages),2)
 
+
 def index(request):
     """
     View function for home page of site.
     """
-    student_name = Student.objects.get(last_name='naghibi').first_name
-    course_name = Course.objects.get(name='MATH200').name
+    student_name = Student.objects.get(last_name='Naghibi').first_name
+    course_name = Course.objects.get(name='CPSC 213').name
     # weighted average of the course based on grades achieved up to now
     course_grade_now = course_overall_avrg(course_name)
-
- 
     context = {
         'student_name':student_name,
         'course_name':course_name,
         'overall_avrg':course_grade_now,
     }
-    
     # Render the HTML template index.html with the data in the context variable
     return render(
         request,
@@ -69,62 +71,57 @@ def index(request):
         context = context,
     )
 
+
 def coursesPage(request):
     course_list = Course.objects.all()
     course_avrg = {}
     for course in course_list:
         course_avrg[course]=course_overall_avrg(course.name)
-
     context = {
         'term_avrg':term_overall_avrg(),
         'course_avrg':course_avrg,
     }
-
     return render(
         request,
         'courses.html',
         context = context,
     )
 
+
 def course_detail_view(request, pk):
     try:
         course = Course.objects.get(id=pk)
         course_name = course.name
         course_avrg = course_overall_avrg(course.name)
-
         course_evaluation_grades = {
             'homeworks': evaluation_avrg('h',course.name),
             'quizzes': evaluation_avrg('q',course.name),
             'midterms': evaluation_avrg('m',course.name),
             'final': evaluation_avrg('f',course.name),
         }
-
         context = {
             'course':course,
             'course_avrg':course_avrg,
             'course_evaluation_grades':course_evaluation_grades,
         }
-
     except Course.DoesNotExist:
         raise Http404('Course does not exist')
-    
     return render(
         request, 
         'course_detail.html', 
         context=context,
     )
 
+
 def grades_detail_view(request,pk):
     try:
         course = Course.objects.get(id=pk)
         course_name = course.name
         course_avrg = course_overall_avrg(course.name)
-
         course_homework_grades = Grades.objects.filter(course__name=course_name,evaluation_type="h")
         course_quizz_grades = Grades.objects.filter(course__name=course_name,evaluation_type="q")
         course_midterm_grades = Grades.objects.filter(course__name=course_name,evaluation_type="m")
         course_final_grades = Grades.objects.filter(course__name=course_name,evaluation_type="f")
-
         context = {
             'course_name':course_name,
             'course_avrg':course_avrg,
@@ -133,10 +130,8 @@ def grades_detail_view(request,pk):
             'course_midterm_grades':course_midterm_grades,
             'course_final_grades':course_final_grades,
         }
-
     except Course.DoesNotExist:
         raise Http404('Grades do not exist')
-    
     return render(
         request, 
         'grades_detail.html', 

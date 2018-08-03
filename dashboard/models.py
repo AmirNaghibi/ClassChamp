@@ -13,8 +13,14 @@ class Student(models.Model):
     school_name = models.CharField(max_length=70)
     def get_name(self):
         return self.first_name
+    
 
-class Evaluation(models.Model): 
+class Course(models.Model):
+    """
+    Model representing a Course (e.g. CPSC 317, Math 200).
+    """
+    name = models.CharField(max_length=20, help_text="Enter a course name (e.g. CPSC 317, MATH 200)")
+    # each course MUST have one Evaluation
     homeworks = models.IntegerField(
         default=0,
         validators=[MaxValueValidator(100), MinValueValidator(0)],
@@ -36,20 +42,6 @@ class Evaluation(models.Model):
         help_text="Percentage weight for final exam",
     )
 
-
-class Course(models.Model):
-    """
-    Model representing a Course (e.g. CPSC 317, Math 200).
-    """
-    name = models.CharField(max_length=20, help_text="Enter a course name (e.g. CPSC 317, MATH 200)")
-    avg = models.IntegerField(default=0)
-    # each course MUST have one Evaluation
-    evaluation = models.OneToOneField(
-        Evaluation,
-        on_delete=models.CASCADE,
-        help_text="enter an evaluation for this course (e.x Homeworks)",
-        null=True,
-        )
     def __str__(self):
         """
         String for representing the Model object (in Admin site etc.)

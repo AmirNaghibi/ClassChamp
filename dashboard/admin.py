@@ -1,10 +1,10 @@
 from django.contrib import admin
-from .models import Student ,Evaluation, Course, Grades
+from .models import *
 
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ('name','evaluation')
+    list_display = ('name','homeworks','quizzes','midterms','final')
 
 
 # Register the Admin classe for Grades using the decorator
@@ -13,12 +13,6 @@ class GradesAdmin(admin.ModelAdmin):
     list_display = ('course', 'evaluation_type', 'evaluation_name', 'date_added', 'grade')
     fields = ['course','evaluation_type',('evaluation_name','grade'),'date_added']
     ordering = ('evaluation_type','date_added',)
-
-
-# Register the Admin classe for Evaluation using the decorator
-@admin.register(Evaluation)
-class EvaluationAdmin(admin.ModelAdmin):
-    list_display = ('homeworks', 'quizzes','midterms','final')
 
 
 @admin.register(Student)
