@@ -27,66 +27,69 @@ def evaluation_weight(evaluation_type, course_name):
 # calculate avrg given course name
 def course_overall_avrg(course_name):
     # average grade calculations: homework, quiz, midterm
-    hw_avrg = evaluation_avrg('h',course_name)
-    qz_avrg = evaluation_avrg('q',course_name)
-    mt_avrg = evaluation_avrg('m',course_name)
-    fn_avrg = evaluation_avrg('f',course_name)
-    # weight of evaluations
-    hw_weight = evaluation_weight('h',course_name)
-    qz_weight = evaluation_weight('q',course_name)
-    mt_weight = evaluation_weight('m',course_name)
-    fn_weight = evaluation_weight('f',course_name)
-    # weighted average of the course based on grades achieved up to now
-    overall_avrg = ((hw_avrg*hw_weight)+(qz_avrg*qz_weight)+(mt_avrg*mt_weight)+(fn_avrg*fn_weight))/(hw_weight+qz_weight+mt_weight+fn_weight)
-    return round(overall_avrg,2)
+    if Grades.objects.filter(course__name=course_name):
+        hw_avrg = evaluation_avrg('h',course_name)
+        qz_avrg = evaluation_avrg('q',course_name)
+        mt_avrg = evaluation_avrg('m',course_name)
+        fn_avrg = evaluation_avrg('f',course_name)
+        # weight of evaluations
+        hw_weight = evaluation_weight('h',course_name)
+        qz_weight = evaluation_weight('q',course_name)
+        mt_weight = evaluation_weight('m',course_name)
+        fn_weight = evaluation_weight('f',course_name)
+        # weighted average of the course based on grades achieved up to now
+        overall_avrg = ((hw_avrg*hw_weight)+(qz_avrg*qz_weight)+(mt_avrg*mt_weight)+(fn_avrg*fn_weight))/(hw_weight+qz_weight+mt_weight+fn_weight)
+        return round(overall_avrg,2)
+    else:
+        return 0
 
 
 # calculate avrg for all courses
 def term_overall_avrg():
-    course_averages = []
-    for course in Course.objects.all():
-        course_averages.append(course_overall_avrg(course.name))
-    total = 0
-    for grade in course_averages:
-        total += grade
-    return round(total/len(course_averages),2)
+    if Course.objects.all().count() != 0:
+        course_averages = []
+        for course in Course.objects.all():
+            course_averages.append(course_overall_avrg(course.name))
+        total = 0
+        for grade in course_averages:
+            total += grade
+        return round(total/len(course_averages),2)
+    else:
+        return 0
 
 
 def index(request):
     """
     View function for home page of site.
     """
-    student_name = Student.objects.get(last_name='Naghibi').first_name
-    course_name = Course.objects.get(name='CPSC 213').name
-    # weighted average of the course based on grades achieved up to now
-    course_grade_now = course_overall_avrg(course_name)
-    context = {
-        'student_name':student_name,
-        'course_name':course_name,
-        'overall_avrg':course_grade_now,
-    }
     # Render the HTML template index.html with the data in the context variable
     return render(
         request,
         'index.html',
-        context = context,
     )
 
 
 def coursesPage(request):
-    course_list = Course.objects.all()
-    course_avrg = {}
-    for course in course_list:
-        course_avrg[course]=course_overall_avrg(course.name)
-    context = {
-        'term_avrg':term_overall_avrg(),
-        'course_avrg':course_avrg,
-    }
-    return render(
-        request,
-        'courses.html',
-        context = context,
-    )
+    if Course.objects.all().count() != 0:
+        course_list = Course.objects.all()
+        course_avrg = {}
+        for course in course_list:
+            course_avrg[course]=course_overall_avrg(course.name)
+        context = {
+            'term_avrg':term_overall_avrg(),
+            'course_avrg':course_avrg,
+        }
+        return render(
+            request,
+            'courses.html',
+            context = context,
+        )
+    else:
+            return render(
+            request,
+            'courses.html',
+        )
+        
 
 
 def course_detail_view(request, pk):
