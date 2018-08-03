@@ -2,12 +2,16 @@
 
 {% block content %}
   <h1>Course List</h1>
-  <h1>Overall Teram Average: <i>{{ term_avrg }}</i></h1>
-  <ul>
-    {% for key, value in course_avrg.items %}
-      <li>
-        <a href="{{ key.get_absolute_url }}">{{ key.name }}: </a> {{ value }}
-      </li>
-    {% endfor %}
-  </ul>
+  {% if course_avrg %}
+    <h1>Overall Teram Average: <i>{{ term_avrg }}</i></h1>
+    <ul>
+      {% for key, value in course_avrg.items %}
+        <li>
+          <a href="{{ key.get_absolute_url }}">{{ key.name }}: </a> {{ value }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <h1>No courses yet</h1>
+  {% endif %}
 {% endblock %}
