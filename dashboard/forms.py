@@ -12,3 +12,16 @@ class AddCourse(forms.ModelForm):
             'midterms':'',
             'final':'',
         }
+
+
+class AddGrade(forms.ModelForm):
+    class Meta:
+        model = models.Grades
+        fields = '__all__'
+        help_texts = {
+            'course':'',
+            'evaluation_type':'',
+            'evaluation_name':'',
+            'grade':'',
+            'date_added':'',
+        }
