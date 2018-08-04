@@ -163,3 +163,22 @@ def add_course(request):
         context=context,
     )
 
+
+def add_grade(request):
+    if request.method == 'POST':
+        form = forms.AddGrade(request.POST)
+        if form.is_valid():
+            # save course to db
+            form.save()
+    else:
+        form = forms.AddGrade()
+
+    context = {
+        'form':form,
+    }
+
+    return render(
+        request,
+        'add_grade.html',
+        context=context,
+    )
