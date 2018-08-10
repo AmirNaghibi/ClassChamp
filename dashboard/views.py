@@ -177,7 +177,6 @@ def add_grade(request):
     context = {
         'form':form,
     }
-
     return render(
         request,
         'add_grade.html',
@@ -185,16 +184,15 @@ def add_grade(request):
     )
 
 
-# def delete_assessment(request,courseID,gradeID):
-#     Grades.objects.get(id=gradeID).delete()
-#     return render(request,'grades_detail.html')
-
 def delete_grade(request,pk,gradeID):
     Grades.objects.get(id=gradeID).delete()
     # course_link = 'dashboard/courses/'+str(pk)+'/grades'
     return redirect('grades-detail',pk=pk)
 
 
+def delete_course(request,courseID):
+    Course.objects.get(id=courseID).delete()
+    return redirect('courses')
 
 
 
