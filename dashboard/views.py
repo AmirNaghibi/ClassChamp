@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import *
 from django.db.models import Avg
 from django.views import generic
 # class to create form based on models
 from . import forms
+from django.http import HttpResponseRedirect, HttpResponse
 
 # calculate evaluation avrg
 # evaluation_types: homework=h , quiz=q , midterm=m , final=f
@@ -184,10 +185,14 @@ def add_grade(request):
     )
 
 
-def delete_obj(request,pk):
-    Course.objects.get(id=pk).delete()
+# def delete_assessment(request,courseID,gradeID):
+#     Grades.objects.get(id=gradeID).delete()
+#     return render(request,'grades_detail.html')
 
-
+def delete_grade(request,pk,gradeID):
+    Grades.objects.get(id=gradeID).delete()
+    # course_link = 'dashboard/courses/'+str(pk)+'/grades'
+    return redirect('grades-detail',pk=pk)
 
 
 
