@@ -8,7 +8,7 @@
     {% if course_homework_grades %}
         {% for hw in course_homework_grades %}
             <li>
-                {{ hw.evaluation_name }}  {{ hw.date_added }}  {{ hw.grade }}
+                {{ hw.evaluation_name }}  {{ hw.date_added }}  {{ hw.grade }}  <a href="#">remove</a> <!--call delete course function-->
             </li>
         {% endfor %}
     {% else %}
@@ -21,7 +21,7 @@
     {% if course_quizz_grades %}
         {% for qz in course_quizz_grades %}
             <li>
-                {{ qz.evaluation_name }}  {{ qz.date_added }}  {{ qz.grade }}
+                {{ qz.evaluation_name }}  {{ qz.date_added }}  {{ qz.grade }}  <a href="#">remove</a>
             </li>
         {% endfor %}
     {% else %}
@@ -34,7 +34,7 @@
     {% if course_midterm_grades %}
         {% for mt in course_midterm_grades %}
             <li>
-                {{ mt.evaluation_name }}  {{ mt.date_added }}  {{ mt.grade }}
+                {{ mt.evaluation_name }}  {{ mt.date_added }}  {{ mt.grade }}  <a href="#">remove</a>
             </li>
         {% endfor %}
     {% else %}
@@ -47,7 +47,7 @@
     {% if course_final_grades %}
         {% for fn in course_final_grades %}
             <li>
-                {{ fn.evaluation_name }}  {{ fn.date_added }}  {{ fn.grade }}
+                {{ fn.evaluation_name }}  {{ fn.date_added }}  {{ fn.grade }}  <a href="#">remove</a>
             </li>
         {% endfor %}
     {% else %}

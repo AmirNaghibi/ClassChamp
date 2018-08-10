@@ -182,3 +182,21 @@ def add_grade(request):
         'add_grade.html',
         context=context,
     )
+
+
+def delete_obj(request,pk):
+    Course.objects.get(id=pk).delete()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
