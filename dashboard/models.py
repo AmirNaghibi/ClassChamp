@@ -23,22 +23,18 @@ class Course(models.Model):
     # each course MUST have one Evaluation
     homeworks = models.IntegerField(
         default=0,
-        validators=[MaxValueValidator(100), MinValueValidator(0)],
         help_text="Percentage weight for homeworks",
     )
     quizzes = models.IntegerField(
         default=0,
-        validators=[MaxValueValidator(100), MinValueValidator(0)],
         help_text="Percentage weight for quizzes",
     )
     midterms = models.IntegerField(
         default=0,
-        validators=[MaxValueValidator(100), MinValueValidator(0)],
         help_text="Percentage weight for midterms",
     )
     final = models.IntegerField(
         default=0,
-        validators=[MaxValueValidator(100), MinValueValidator(0)],
         help_text="Percentage weight for final exam",
     )
 
