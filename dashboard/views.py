@@ -176,7 +176,7 @@ def add_course(request):
                 msg = "successfully create course "+form.cleaned_data['name']
                 return render(
                     request,
-                    'error_page.html',
+                    'success_page.html',
                     context={
                         'msg':msg,
                     },
