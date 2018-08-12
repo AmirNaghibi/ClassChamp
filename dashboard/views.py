@@ -149,8 +149,19 @@ def add_course(request):
     if request.method == 'POST':
         form = forms.AddCourse(request.POST)
         if form.is_valid():
-            # save course to db
-            form.save()
+            homeworks = int(form.cleaned_data['homeworks'])
+            quizzes = int(form.cleaned_data['quizzes'])
+            midterms = int(form.cleaned_data['midterms'])
+            final = int(form.cleaned_data['final'])
+            if int(form.cleaned_data['homeworks'])+int(form.cleaned_data['quizzes'])+int(form.cleaned_data['midterms'])+int(form.cleaned_data['final'])!=100:
+                return render(
+                request,
+                'error_page.html',
+                context={'error_msg':"sum of evaluations must be 100"},
+                )
+            else:
+            # Successful save on db
+                form.save()
     else:
         form = forms.AddCourse()
 
@@ -195,7 +206,11 @@ def delete_course(request,courseID):
     return redirect('courses')
 
 
-
+def show_error(request):
+    return render(
+        request,
+        'error_page.html',
+    )
 
 
 
