@@ -10,7 +10,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 # evaluation_types: homework=h , quiz=q , midterm=m , final=f
 def evaluation_avrg(evaluation_type, course_name):
     avrg = 0 if (Grades.objects.all().filter(course__name=course_name,evaluation_type=evaluation_type).count()==0) else Grades.objects.all().filter(course__name=course_name,evaluation_type=evaluation_type).aggregate(Avg('grade'))['grade__avg']
-    return avrg
+    return round(avrg,2)
 
 
 # calculate course weight
@@ -77,8 +77,8 @@ def coursesPage(request):
         for course in course_list:
             course_avrg[course]=course_overall_avrg(course.name)
         context = {
-            'term_avrg':round(term_overall_avrg(),2),
-            'course_avrg':round(course_avrg,2),
+            'term_avrg':term_overall_avrg(),
+            'course_avrg':course_avrg,
         }
         return render(
             request,
@@ -99,10 +99,10 @@ def course_detail_view(request, pk):
         course_name = course.name
         course_avrg = course_overall_avrg(course.name)
         course_evaluation_grades = {
-            'homeworks': round(evaluation_avrg('h',course.name),2),
-            'quizzes': round(evaluation_avrg('q',course.name),2),
-            'midterms': round(evaluation_avrg('m',course.name),2),
-            'final': round(evaluation_avrg('f',course.name),2),
+            'homeworks': evaluation_avrg('h',course.name),
+            'quizzes': evaluation_avrg('q',course.name),
+            'midterms': evaluation_avrg('m',course.name),
+            'final': evaluation_avrg('f',course.name),
         }
         context = {
             'course':course,
