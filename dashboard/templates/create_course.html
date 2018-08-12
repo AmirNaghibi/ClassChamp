@@ -4,15 +4,14 @@
   <h1>Create Course</h1>
   
   <form action="{% url 'add-course' %}" method="POST" onsubmit="myFunction()">
-      {{ form }}
+        course name       {{ form.name }}      <br><br><br>
+        homeworks weight  {{ form.homeworks }} <br><br><br>
+        quizzes weight    {{ form.quizzes }}   <br><br><br>
+        midterms weight   {{ form.midterms }}  <br><br><br>
+        final weight      {{ form.final }}     <br><br><br>
       {% csrf_token %}
+      <br>
       <input type="submit" value="Submit"></input>
   </form>
-
-  <script>
-    function myFunction() {
-        alert("Course was successfully created");
-    }
-  </script>
     
 {% endblock %}

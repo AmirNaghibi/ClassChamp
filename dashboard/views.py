@@ -10,7 +10,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 # evaluation_types: homework=h , quiz=q , midterm=m , final=f
 def evaluation_avrg(evaluation_type, course_name):
     avrg = 0 if (Grades.objects.all().filter(course__name=course_name,evaluation_type=evaluation_type).count()==0) else Grades.objects.all().filter(course__name=course_name,evaluation_type=evaluation_type).aggregate(Avg('grade'))['grade__avg']
-    return avrg
+    return round(avrg,2)
 
 
 # calculate course weight
@@ -143,14 +143,44 @@ def grades_detail_view(request,pk):
         context=context,
     )
 
+def is_valid_grade(grade):
+    if grade in range(0,101):
+        return True
+    else:
+        return False
 
 # Add course tab
 def add_course(request):
     if request.method == 'POST':
         form = forms.AddCourse(request.POST)
         if form.is_valid():
-            # save course to db
-            form.save()
+            homeworks = int(form.cleaned_data['homeworks'])
+            quizzes = int(form.cleaned_data['quizzes'])
+            midterms = int(form.cleaned_data['midterms'])
+            final = int(form.cleaned_data['final'])
+            if int(form.cleaned_data['homeworks'])+int(form.cleaned_data['quizzes'])+int(form.cleaned_data['midterms'])+int(form.cleaned_data['final'])!=100:
+                return render(
+                request,
+                'error_page.html',
+                context={'msg':"sum of evaluations must be 100"},
+                )
+            elif (not is_valid_grade(homeworks) or not is_valid_grade(quizzes) or not is_valid_grade(midterms) or not is_valid_grade(final)):
+                return render(
+                    request,
+                    'error_page.html',
+                    context={'msg':"Graded must be integers in range 0 to 100"},
+                )
+            else:
+            # Successful save on db
+                form.save()
+                msg = "successfully create course "+form.cleaned_data['name']
+                return render(
+                    request,
+                    'error_page.html',
+                    context={
+                        'msg':msg,
+                    },
+                )
     else:
         form = forms.AddCourse()
 
@@ -169,8 +199,24 @@ def add_grade(request):
     if request.method == 'POST':
         form = forms.AddGrade(request.POST)
         if form.is_valid():
-            # save course to db
-            form.save()
+            grade = int(form.cleaned_data['grade'])
+            if  not is_valid_grade(grade):
+                return render(
+                request,
+                'error_page.html',
+                context={'msg':"Graded must be integers in range 0 to 100"},
+                )
+            else:
+                # save course to db
+                form.save()
+                msg = "successfully added grade "+form.cleaned_data['evaluation_name']+": "+str(form.cleaned_data['grade'])+"%"
+                return render(
+                    request,
+                    'error_page.html',
+                    context={
+                        'msg':msg,
+                    },
+                )
     else:
         form = forms.AddGrade()
 
@@ -195,7 +241,11 @@ def delete_course(request,courseID):
     return redirect('courses')
 
 
-
+def show_error(request):
+    return render(
+        request,
+        'error_page.html',
+    )
 
 
 

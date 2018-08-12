@@ -4,15 +4,13 @@
   <h1>Add Grade</h1>
   
   <form action="{% url 'add-grade' %}" method="POST" onsubmit="myFunction()">
-      {{ form }}
+        course name       {{ form.course }}             <br><br><br>
+        evaluation type   {{ form.evaluation_type }}    <br><br><br>
+        evaluation name   {{ form.evaluation_name }}    <br><br><br>
+        grade achieved    {{ form.grade }}              <br><br><br>
+        date added        {{ form.date_added }}         <br><br><br>
       {% csrf_token %}
       <input type="submit" value="Submit"></input>
   </form>
-
-  <script>
-    function myFunction() {
-        alert("Grade was successfully added");
-    }
-  </script>
     
 {% endblock %}
