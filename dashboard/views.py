@@ -77,8 +77,8 @@ def coursesPage(request):
         for course in course_list:
             course_avrg[course]=course_overall_avrg(course.name)
         context = {
-            'term_avrg':term_overall_avrg(),
-            'course_avrg':course_avrg,
+            'term_avrg':round(term_overall_avrg(),2),
+            'course_avrg':round(course_avrg,2),
         }
         return render(
             request,
@@ -99,10 +99,10 @@ def course_detail_view(request, pk):
         course_name = course.name
         course_avrg = course_overall_avrg(course.name)
         course_evaluation_grades = {
-            'homeworks': evaluation_avrg('h',course.name),
-            'quizzes': evaluation_avrg('q',course.name),
-            'midterms': evaluation_avrg('m',course.name),
-            'final': evaluation_avrg('f',course.name),
+            'homeworks': round(evaluation_avrg('h',course.name),2),
+            'quizzes': round(evaluation_avrg('q',course.name),2),
+            'midterms': round(evaluation_avrg('m',course.name),2),
+            'final': round(evaluation_avrg('f',course.name),2),
         }
         context = {
             'course':course,
