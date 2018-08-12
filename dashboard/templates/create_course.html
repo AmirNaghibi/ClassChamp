@@ -4,15 +4,30 @@
   <h1>Create Course</h1>
   
   <form action="{% url 'add-course' %}" method="POST" onsubmit="myFunction()">
-      {{ form }}
+    {% for field in form %}
+    <div style="width:0%; text-align: end">
+        {{ field.name }}
+        {{ field.homeworks }}
+        {{ field.quizzes }}
+        {{ field.midterms }}
+        {{ field.final }}
+        {{ field }}
+    </div>
+    {% endfor %}
       {% csrf_token %}
       <input type="submit" value="Submit"></input>
   </form>
 
-  <script>
+  <!-- <script type="text/javascript">
     function myFunction() {
-        alert("Course was successfully created");
+      var homeworks="{{ form.homworks }}";
+      var midterms="{{ form.midterms }}";
+      var quizzes="{{ form.quizzes }}";
+      var final="{{ form.final }}";
+      if(homeworks+midterms+quizzes+final!=100){
+        alert("SUM MUST BE 100")
+      }else{alert("SUCCESS")}
     }
-  </script>
+  </script> -->
     
 {% endblock %}
