@@ -157,11 +157,19 @@ def add_course(request):
                 return render(
                 request,
                 'error_page.html',
-                context={'error_msg':"sum of evaluations must be 100"},
+                context={'msg':"sum of evaluations must be 100"},
                 )
             else:
             # Successful save on db
                 form.save()
+                msg = "successfully create course "+form.cleaned_data['name']
+                return render(
+                    request,
+                    'error_page.html',
+                    context={
+                        'msg':msg,
+                    },
+                )
     else:
         form = forms.AddCourse()
 
