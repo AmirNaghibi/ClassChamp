@@ -212,7 +212,7 @@ def add_grade(request):
                 msg = "successfully added grade "+form.cleaned_data['evaluation_name']+": "+str(form.cleaned_data['grade'])+"%"
                 return render(
                     request,
-                    'error_page.html',
+                    'success_page.html',
                     context={
                         'msg':msg,
                     },
