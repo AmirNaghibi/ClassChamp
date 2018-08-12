@@ -144,7 +144,7 @@ def grades_detail_view(request,pk):
     )
 
 def is_valid_grade(grade):
-    if grade in range(0,100):
+    if grade in range(0,101):
         return True
     else:
         return False
@@ -199,8 +199,24 @@ def add_grade(request):
     if request.method == 'POST':
         form = forms.AddGrade(request.POST)
         if form.is_valid():
-            # save course to db
-            form.save()
+            grade = int(form.cleaned_data['grade'])
+            if  not is_valid_grade(grade):
+                return render(
+                request,
+                'error_page.html',
+                context={'msg':"Graded must be integers in range 0 to 100"},
+                )
+            else:
+                # save course to db
+                form.save()
+                msg = "successfully added grade "+form.cleaned_data['evaluation_name']+": "+str(form.cleaned_data['grade'])+"%"
+                return render(
+                    request,
+                    'error_page.html',
+                    context={
+                        'msg':msg,
+                    },
+                )
     else:
         form = forms.AddGrade()
 
