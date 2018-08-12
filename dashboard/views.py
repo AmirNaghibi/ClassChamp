@@ -143,6 +143,11 @@ def grades_detail_view(request,pk):
         context=context,
     )
 
+def is_valid_grade(grade):
+    if grade in range(0,100):
+        return True
+    else:
+        return False
 
 # Add course tab
 def add_course(request):
@@ -158,6 +163,12 @@ def add_course(request):
                 request,
                 'error_page.html',
                 context={'msg':"sum of evaluations must be 100"},
+                )
+            elif (not is_valid_grade(homeworks) or not is_valid_grade(quizzes) or not is_valid_grade(midterms) or not is_valid_grade(final)):
+                return render(
+                    request,
+                    'error_page.html',
+                    context={'msg':"Graded must be integers in range 0 to 100"},
                 )
             else:
             # Successful save on db
