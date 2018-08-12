@@ -70,7 +70,6 @@ class Grades(models.Model):
     evaluation_type = models.CharField(max_length=1, choices=EVALUATION_TYPE, default='h' , help_text='Choose type of evaluation (e.g Homework)')
     evaluation_name = models.CharField(max_length=20, default='Homework 1', help_text='enter a name for this evaluation')
     grade = models.IntegerField(
-        validators=[MaxValueValidator(100), MinValueValidator(0)],
         help_text = "Enter grade (ex. 83)"
     )
     date_added = models.DateField(("Date"), default=datetime.date.today)
