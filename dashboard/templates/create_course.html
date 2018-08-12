@@ -17,17 +17,5 @@
       {% csrf_token %}
       <input type="submit" value="Submit"></input>
   </form>
-
-  <!-- <script type="text/javascript">
-    function myFunction() {
-      var homeworks="{{ form.homworks }}";
-      var midterms="{{ form.midterms }}";
-      var quizzes="{{ form.quizzes }}";
-      var final="{{ form.final }}";
-      if(homeworks+midterms+quizzes+final!=100){
-        alert("SUM MUST BE 100")
-      }else{alert("SUCCESS")}
-    }
-  </script> -->
     
 {% endblock %}
