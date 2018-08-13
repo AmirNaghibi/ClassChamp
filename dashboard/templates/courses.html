@@ -6,9 +6,15 @@
     <h1>Overall Teram Average: <i>{{ term_avrg }}</i></h1>
     <ul>
       {% for key, value in course_avrg.items %}
-        <li>
-          <a href="{{ key.get_absolute_url }}">{{ key.name }}: </a> {{ value }}   <a href="delete/{{ key.id }}">remove</a>
-        </li>
+      <a href="{{ key.get_absolute_url }}" style="color: black">
+      <div class="card text-white bg-info mb-3" style="max-width: 18rem;">
+        <div class="card-header">Course Average: {{ value }}</div>
+        <div class="card-body">
+          <h5 class="card-title">{{ key.name }}</h5>
+          <p class="card-text"><button type="button" class="btn btn-danger btn-sm"><a href="delete/{{ key.id }}" style="color: black">remove</a></button></p>
+        </div>
+      </div>
+      </a>
       {% endfor %}
     </ul>
   {% else %}
