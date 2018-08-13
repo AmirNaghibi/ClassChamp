@@ -1,7 +1,7 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-  <h1>Course List</h1>
+  <h1>Course List </h1>
   {% if course_avrg %}
     <h1>Overall Teram Average: <i>{{ term_avrg }}</i></h1>
     <ul>
@@ -11,7 +11,7 @@
         <div class="card-header">Course Average: {{ value }}</div>
         <div class="card-body">
           <h5 class="card-title">{{ key.name }}</h5>
-          <p class="card-text"><button type="button" class="btn btn-danger btn-sm"><a href="delete/{{ key.id }}" style="color: black">remove</a></button></p>
+          <p class="card-text"><button type="button" class="btn btn-danger btn-sm"><a href="delete/{{ key.id }}" style="color: black"><i class="fas fa-trash-alt"></i></a></button></p>
         </div>
       </div>
       </a>
