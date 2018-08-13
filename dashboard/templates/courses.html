@@ -1,9 +1,37 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-  <h1>Course List </h1>
+  <h1 style="margin-left: 80px">Course List </h1>
   {% if course_avrg %}
-    <h1>Overall Teram Average: <i>{{ term_avrg }}</i></h1>
+  <br><br>
+  <!-- COURSE AVERAGE -->
+  <div id="chart_div" style="margin-left: 80px"></div>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+     google.charts.load('current', {'packages':['gauge']});
+     google.charts.setOnLoadCallback(drawChart);
+
+     function drawChart() {
+
+       var data = google.visualization.arrayToDataTable([
+         ['Label', 'Value'],
+         ['Term AVG', {{ term_avrg }}],
+       ]);
+
+       var options = {
+         width: 200, height: 200,
+         redFrom: 0, redTo: 50,
+         yellowFrom:50, yellowTo: 75,
+         greenFrom:75, greenTo:100,
+         minorTicks: 5
+       };
+
+       var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+
+       chart.draw(data, options);
+     }
+  </script>
+  <br>
     <ul>
       {% for key, value in course_avrg.items %}
       <a href="{{ key.get_absolute_url }}" style="color: black">
