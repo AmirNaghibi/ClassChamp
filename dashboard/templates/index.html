@@ -1,15 +1,13 @@
 {% extends "base_generic.html" %}
-
+     
 {% block content %}
-  <h1>ClassChamp Dashboard</h1>
-  <!--
-  <ul>
-    <li><strong>Student Name:</strong> {{ student_name }}</li>
-    <li><strong>Course Name</strong> {{ course_name }}</li>
-    <li><strong>Course Average</strong> {{ overall_avrg }}</li>
-  </ul>
-  -->
-  <!--Google Calendar-->
-<iframe src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=2&amp;bgcolor=%2333ffff&amp;src=2f9n0o3tflfcvoeh8fs5382cfg%40group.calendar.google.com&amp;color=%23333333&amp;ctz=America%2FVancouver" style="border-width:0" align="center" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+  <h1 style="text-align: center">ClassChamp Dashboard</h1>
+  
+  <!-- LATEST UBC YOUTUBE VIDEO -->
+  <!-- <iframe width="600" height="340" src="http://www.youtube.com/embed?max-results=1&controls=0&showinfo=0&rel=0&listType=user_uploads&list=UBC" frameborder="0" allowfullscreen></iframe>  -->
+  <h4 style="text-align: center">Latest UBC News:</h4>
+  <iframe width="600" height="340" src="https://www.youtube.com/embed/+lastest?list=PL15D40D483B9FE3EB" frameborder="1" allowfullscreen style="display: block;margin-left: auto;margin-right: auto"></iframe>
+  <br><br><br>
+  <iframe width="800" height="600" src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=2&amp;bgcolor=%2333ffff&amp;src=2f9n0o3tflfcvoeh8fs5382cfg%40group.calendar.google.com&amp;color=%23333333&amp;ctz=America%2FVancouver" style="display: block; margin-left: auto; margin-right: auto" frameborder="1" scrolling="yes" ></iframe>
 
 {% endblock %}
