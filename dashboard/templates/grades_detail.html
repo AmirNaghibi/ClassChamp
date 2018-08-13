@@ -2,53 +2,53 @@
 
 {% block content %}
   <h1>Evaluation List for {{ course_name }}</h1>
-  
+  <!-- HOMEWORKS -->
   <h1>Homeworks</h1>
   <ul>
     {% if course_homework_grades %}
         {% for hw in course_homework_grades %}
-            <li>
-                {{ hw.evaluation_name }}  {{ hw.date_added }}  {{ hw.grade }}  <a href="delete/{{ hw.id }}">remove</a>
+            <li class="list-group-item list-group-item-info">
+                    Name:{{ hw.evaluation_name }}<br>   Date:{{ hw.date_added }}<br>  Grade:<span style="font-weight: bolder">{{ hw.grade }}%</span>  <span style="float: right"><button type="button" class="btn btn-danger btn-sm"><a href="delete/{{ hw.id }}"><i class="fas fa-trash-alt"></i></a></button></span>
             </li>
         {% endfor %}
     {% else %}
             <p>There are no homework marks yet.</p>
     {% endif %}
   </ul>
-
+  <!-- QUIZZIS -->
   <h1>Quizzes</h1>
   <ul>
     {% if course_quizz_grades %}
         {% for qz in course_quizz_grades %}
-            <li>
-                {{ qz.evaluation_name }}  {{ qz.date_added }}  {{ qz.grade }}  <a href="delete/{{ qz.id }}">remove</a>
-            </li>
+        <li class="list-group-item list-group-item-success">
+                Name:{{ qz.evaluation_name }}<br>   Date:{{ qz.date_added }}<br>  Grade:<span style="font-weight: bolder">{{ qz.grade }}%</span>  <span style="float: right"><button type="button" class="btn btn-danger btn-sm"><a href="delete/{{ qz.id }}"><i class="fas fa-trash-alt"></i></a></button></span>
+        </li>
         {% endfor %}
     {% else %}
             <p>There are no quizz marks yet.</p>
     {% endif %}
   </ul>
-
+  <!-- MIDTERMS -->
   <h1>Midterms</h1>
   <ul>
     {% if course_midterm_grades %}
         {% for mt in course_midterm_grades %}
-            <li>
-                {{ mt.evaluation_name }}  {{ mt.date_added }}  {{ mt.grade }} <a href="delete/{{ mt.id }}">remove</a>
-            </li>
+        <li class="list-group-item list-group-item-primary">
+                Name:{{ mt.evaluation_name }}<br>   Date:{{ mt.date_added }}<br>  Grade:<span style="font-weight: bolder">{{ mt.grade }}%</span>  <span style="float: right"><button type="button" class="btn btn-danger btn-sm"><a href="delete/{{ mt.id }}"><i class="fas fa-trash-alt"></i></a></button></span>
+        </li>
         {% endfor %}
     {% else %}
         <p>There are no midterm marks yet.</p>
     {% endif %}
   </ul>
-
+  <!-- FINAL -->
   <h1>Final</h1>
   <ul>
     {% if course_final_grades %}
         {% for fn in course_final_grades %}
-            <li>
-                {{ fn.evaluation_name }}  {{ fn.date_added }}  {{ fn.grade }}  <a href="delete/{{ fn.id }}">remove</a> 
-            </li>
+        <li class="list-group-item list-group-item-secondary">
+                Name:{{ fn.evaluation_name }}<br>   Date:{{ fn.date_added }}<br>  Grade:<span style="font-weight: bolder">{{ fn.grade }}%</span>  <span style="float: right"><button type="button" class="btn btn-danger btn-sm"><a href="delete/{{ fn.id }}"><i class="fas fa-trash-alt"></i></a></button></span>
+        </li>
         {% endfor %}
     {% else %}
         <p>There are no final mark yet.</p>
